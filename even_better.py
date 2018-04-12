@@ -17,7 +17,7 @@ def time_to_date(timestamp, datetime=datetime):
     return datetime.fromtimestamp(timestamp).ctime()
 
 
-def fetch_package_version(pkg_name, requests=requests):
+def fetch_package_version(pkg_name, requests=requests, time=time):
     response = requests.get(f'http://pypi.python.org/pypi/{pkg_name}/json')
 
     if response.status_code == 200:
