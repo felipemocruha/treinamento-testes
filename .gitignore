@@ -1,2 +1,3 @@
 last_check.csv
 env
+*/__pycache__

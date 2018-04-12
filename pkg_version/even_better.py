@@ -21,6 +21,7 @@ def fetch_package_version(pkg_name, requests=requests, time=time):
     response = requests.get(f'http://pypi.python.org/pypi/{pkg_name}/json')
 
     if response.status_code == 200:
+        print(response.json())
         version = response.json()['info']['version']
         return version, int(time())
     else:
@@ -30,11 +31,13 @@ def fetch_package_version(pkg_name, requests=requests, time=time):
 
 def create_package(name, version, last_check, Package=Package):
     package = Package()
+    print(package)
     package.name = name
     package.latest_version = version
     package.last_check = last_check
     print(package.to_json())
     package.save()
+    return package
 
 
 def save_last_check(name, version, last_check, open_fn=open):
@@ -59,7 +62,7 @@ def run(config,
     try:
         connect_to_db(config, me=me)
         version, timestamp = fetch_package_version(pkg_name,
-                                                    requests=requests)
+                                                   requests=requests)
 
         last_check = time_to_date(timestamp)
         create_package(pkg_name, version, last_check, Package=Package)
